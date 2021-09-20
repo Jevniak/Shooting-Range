@@ -2,23 +2,19 @@
 
 public class GunRotate : Gun
 {
-    private Camera mainCamera;
-    private Transform thisTransform;
-
-    [SerializeField] private float offset { get; }
-
-    private void Awake()
+    protected override void Awake()
     {
-        mainCamera = Camera.main;
-        thisTransform = transform;
+        base.Awake();
     }
-
 
     private void Update()
     {
-        // TODO: create rotate gun
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            Vector3 point = hit.point;
+            thisTransform.LookAt(point);
+            shotPosition = point;
+        }
     }
-
-
-
 }
