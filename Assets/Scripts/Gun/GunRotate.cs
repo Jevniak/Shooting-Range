@@ -1,20 +1,27 @@
-﻿using UnityEngine;
+﻿using UI;
+using UnityEngine;
 
-public class GunRotate : Gun
+namespace Gun
 {
-    protected override void Awake()
+    public class GunRotate : Gun
     {
-        base.Awake();
-    }
-
-    private void Update()
-    {
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit))
+        protected override void Awake()
         {
-            Vector3 point = hit.point;
-            thisTransform.LookAt(point);
-            shotPosition = point;
+            base.Awake();
+        }
+
+        private void Update()
+        {
+            if (UIGameTimer.GameStarted)
+            {
+                Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+                if (Physics.Raycast(ray, out RaycastHit hit))
+                {
+                    Vector3 point = hit.point;
+                    thisTransform.LookAt(point);
+                    shotPosition = point;
+                }
+            }
         }
     }
 }

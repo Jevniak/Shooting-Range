@@ -1,40 +1,41 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;using System.Net.Security;
 using UnityEngine;
 
-
- 
-
-public class Gun : MonoBehaviour
+namespace Gun
 {
-    [Serializable]
-    protected class GunStatistic
+    public class Gun : MonoBehaviour
     {
-        // количество патронов до перезарядки
-        public int amount;
-        // время перезарядки
-        public float reloadTime;
-        // задержка между выстрелами
-        public float shotCooldown;
-    }
-    
-    protected Camera mainCamera;
-    protected static Vector3 shotPosition;
-    protected Transform thisTransform;
+        [Serializable]
+        protected class GunStatistic
+        {
+            // количество патронов до перезарядки
+            public int amount;
 
-    protected virtual void Awake()
-    {
-        mainCamera = Camera.main;
-        thisTransform = transform;
-    }
+            // время перезарядки
+            public float reloadTime;
 
-    protected virtual void Shot()
-    {
-    }
+            // задержка между выстрелами
+            public float shotCooldown;
+        }
 
-    protected virtual IEnumerator Reload()
-    {
-        yield return null;
+        protected Camera mainCamera;
+        protected static Vector3 shotPosition;
+        protected Transform thisTransform;
+
+        protected virtual void Awake()
+        {
+            mainCamera = Camera.main;
+            thisTransform = transform;
+        }
+
+        protected virtual void Shot()
+        {
+        }
+
+        protected virtual IEnumerator Reload()
+        {
+            yield return null;
+        }
     }
 }

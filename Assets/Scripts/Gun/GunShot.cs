@@ -1,61 +1,73 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using Sound;
+using UI;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class GunShot : Gun
+namespace Gun
 {
-    [SerializeField, Header("Префаб пули")] private GameObject bullet;
+    public class GunShot : Gun
+    {
+        [SerializeField, Header("Префаб пули")] private GameObject bullet;
+        [SerializeField] private List<AudioClip> audioShot;
+        [SerializeField] private AudioClip audioReload;
+        [SerializeField] private GunStatistic gunStatistic;
 
-    [SerializeField] private GunStatistic _gunStatistic;
-
-    private int amount;
+        private int amount;
     
-    private bool reload;
-    private bool shotCooldown;
+        private bool reload;
+        private bool shotCooldown;
 
-    protected override void Awake()
-    {
-        base.Awake();
-        amount = _gunStatistic.amount;
-    }
-
-    protected override void Shot()
-    {
-        if (amount == 0)
+        private AudioSource _audioSource;
+        
+        protected override void Awake()
         {
-            reload = true;
-            StartCoroutine(Reload());
+            base.Awake();
+            amount = gunStatistic.amount;
+            _audioSource = GetComponent<AudioSource>();
         }
 
-        GameObject newBullet = Instantiate(bullet, thisTransform);
-        newBullet.transform.SetParent(null);
-        // TODO: Shot logic
-
-    }
-
-    protected override IEnumerator Reload()
-    {
-        yield return new WaitForSeconds(_gunStatistic.reloadTime);
-        amount = _gunStatistic.amount;
-        reload = false;
-    }
-
-    private IEnumerator ShotCooldown()
-    {
-        shotCooldown = true;
-        yield return new WaitForSeconds(_gunStatistic.shotCooldown);
-        shotCooldown = false;
-    }
-
-    private void Update()
-    {
-        print(shotPosition);
-        if (!reload && !shotCooldown && Input.GetMouseButtonDown(0))
+        protected override void Shot()
         {
-            print("SHOOT!");
-            Shot();
-            StartCoroutine(ShotCooldown());
+            amount--;
+            
+            if (amount == 0)
+            {
+                reload = true;
+                StartCoroutine(Reload());
+            }
+            // Создаем пулю
+            GameObject newBullet = Instantiate(bullet, thisTransform);
+            newBullet.transform.SetParent(null);
+            
+            _audioSource.clip = audioShot[Random.Range(0,audioShot.Count)];
+            _audioSource.Play();
+        }
+
+        protected override IEnumerator Reload()
+        {
+            SoundManager.Inst.PlayAudio(audioReload);
+            yield return new WaitForSeconds(gunStatistic.reloadTime);
+            amount = gunStatistic.amount;
+            reload = false;
+            SoundManager.Inst.StopAudio();
+        }
+
+        private IEnumerator ShotCooldown()
+        {
+            shotCooldown = true;
+            yield return new WaitForSeconds(gunStatistic.shotCooldown);
+            shotCooldown = false;
+        }
+
+        private void Update()
+        {
+            if (!reload && !shotCooldown && Input.GetMouseButtonDown(0) && UIGameTimer.GameStarted)
+            {
+                Shot();
+                StartCoroutine(ShotCooldown());
+            }
         }
     }
 }

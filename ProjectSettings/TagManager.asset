@@ -4,7 +4,11 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Touchable
+  - ScoreSystem
+  - God
+  - Bad
+  - Bullet
+  - Score
   layers:
   - Default
   - TransparentFX
