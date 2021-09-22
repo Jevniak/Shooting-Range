@@ -1,23 +1,2 @@
 <?xml version="1.0"?>
-<Leaderboard xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <Score>
-    <Name>PlayernameTEste</Name>
-    <Value>43</Value>
-  </Score>
-  <Score>
-    <Name>PlayernameTEste</Name>
-    <Value>29</Value>
-  </Score>
-  <Score>
-    <Name>Player</Name>
-    <Value>3</Value>
-  </Score>
-  <Score>
-    <Name>Testzzz</Name>
-    <Value>3</Value>
-  </Score>
-  <Score>
-    <Name>Testzzz</Name>
-    <Value>3</Value>
-  </Score>
-</Leaderboard>
+<Leaderboard xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />

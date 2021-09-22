@@ -17,6 +17,7 @@ namespace Target
         public static ScoreSystem Inst;
 
         [SerializeField] private string xmlPath;
+        [SerializeField] private string xmlName;
 
         [XmlRoot("Leaderboard"), Serializable]
         public class Leaderboard
@@ -61,11 +62,11 @@ namespace Target
 
         private void CheckXMLExist()
         {
-            if (File.Exists(xmlPath))
+            if (File.Exists(xmlPath+"/"+xmlName))
             {
                 // получаем лидерборд если существует файл
                 XmlSerializer xmlSerializer = new XmlSerializer(typeof(Leaderboard));
-                FileStream fileStream = new FileStream(xmlPath, FileMode.Open);
+                FileStream fileStream = new FileStream(xmlPath+"/"+xmlName, FileMode.Open);
                 leaderboard = xmlSerializer.Deserialize(fileStream) as Leaderboard;
                 fileStream.Close();
             }
@@ -90,9 +91,14 @@ namespace Target
 
         private void SaveResult()
         {
+            if (!Directory.Exists(xmlPath))
+            {
+                Directory.CreateDirectory(xmlPath);
+            }
+            
             // сохраняем лист в xml
             XmlSerializer serializer = new XmlSerializer(leaderboard.GetType());
-            StreamWriter writer = new StreamWriter(xmlPath);
+            StreamWriter writer = new StreamWriter(xmlPath+"/"+xmlName);
             serializer.Serialize(writer.BaseStream, leaderboard);
             writer.Close();
         }

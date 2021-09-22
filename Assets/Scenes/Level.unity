@@ -1175,7 +1175,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentScore: 0
-  xmlPath: Assets/Data/Score.xml
+  xmlPath: Assets/Data
+  xmlName: Score.xml
   leaderboard:
     score: []
   leaderboardParent: {fileID: 0}
